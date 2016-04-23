@@ -10,7 +10,6 @@ pyglet.have_avbin = True
 SONGS_PATH = os.getcwd() + '\songs\\'
 
 window = pyglet.window.Window()
-
 player = pyglet.media.Player()
 
 @window.event
@@ -18,14 +17,30 @@ def on_key_press(symbol, modifiers):
     if symbol == key.P:
         player.play()
     elif symbol == key.N:
-        player.next_source()    
+        player.next_source()
+    
+    display_current_song()
 
-for song in os.listdir(SONGS_PATH):
-    if song.endswith('.ogg'):
-        print song
-        source = pyglet.media.load(SONGS_PATH + song)
-        player.queue(source)
+def display_current_song():
+    song_label = pyglet.text.Label('Playing: ' + player.source.title,
+                        font_name = 'Calibri',
+                 	font_size = 14,
+			x = window.width // 2, y = window.height // 2,
+			anchor_x = 'center', anchor_y = 'center')
 
-#player.play()
+    window.clear()
+    song_label.draw()
+
+
+def add_songs_to_player():
+    for song in os.listdir(SONGS_PATH):
+        if song.endswith('.ogg'):
+            print song
+            songsource = pyglet.media.load(SONGS_PATH + song)
+	    songsource.title = song[0:-4]
+	    #print songsource.title
+            player.queue(songsource)
+
+add_songs_to_player()
 
 pyglet.app.run()
