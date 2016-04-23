@@ -18,19 +18,22 @@ def on_key_press(symbol, modifiers):
         player.play()
     elif symbol == key.N:
         player.next_source()
+    elif symbol == key.U:
+        player.pause()
     
     display_current_song()
 
 def display_current_song():
-    song_label = pyglet.text.Label('Playing: ' + player.source.title,
+    song_label = pyglet.text.Label('Playing: ' + player.source.title + '\n' + 'Play: P, Pause: U, Next: N',
                         font_name = 'Calibri',
                  	font_size = 14,
 			x = window.width // 2, y = window.height // 2,
-			anchor_x = 'center', anchor_y = 'center')
+			width = 550,
+			anchor_x = 'center', anchor_y = 'center',
+			multiline = True)
 
     window.clear()
-    song_label.draw()
-
+    song_label.draw() 
 
 def add_songs_to_player():
     for song in os.listdir(SONGS_PATH):
